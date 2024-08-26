@@ -12,10 +12,10 @@ servers:
   - url: https://demoeditor.org/api
 tags:
   - name: books
-    description: Manipulating books, existing and in project 
+    description: Manipulating books, existing and in project
   - name: params
     description: Settings parameters for the books data referential service
-    
+
 paths:
   /books:
     post:
@@ -26,17 +26,17 @@ paths:
       operationId: addbook
       requestBody:
         description: Description of a book, with at least the mandatory attributes
-        content: 
+        content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Book'
+              $ref: "#/components/schemas/Book"
         required: true
       responses:
-        '201': 
+        "201":
           description: Successful Creation
-        '403':
+        "403":
           description: Is returned if the operation is forbidden
-        '422':
+        "422":
           description: Is returned if the content proposed for creation is invalid
   /books/{id}:
     get:
@@ -53,17 +53,17 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Successful read
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
-        '400':
+                $ref: "#/components/schemas/Book"
+        "400":
           description: Is returned if an invalid id is provided
-        '403':
+        "403":
           description: Is returned if reading operation on the book is forbidden
-        '404':
+        "404":
           description: Is returned when the id provided is valid but no books exist with this identifier or ISBN number
     delete:
       tags:
@@ -79,12 +79,12 @@ paths:
           schema:
             type: string
       responses:
-        '204':
-          description: 'Is retured if the resource is deleted'
-        '404':
-          description: 'Is returned if the resource was not found'
+        "204":
+          description: "Is retured if the resource is deleted"
+        "404":
+          description: "Is returned if the resource was not found"
   /params/statuses:
-    put: 
+    put:
       tags:
         - params
       summary: Defines the possible values of status for the books
@@ -104,16 +104,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Statuses'
+              $ref: "#/components/schemas/Statuses"
         required: true
       responses:
-        '200':
+        "200":
           description: Successful modification of the status codes
-        '403':
+        "403":
           description: Is returned if the operation is forbidden
-        '422':
+        "422":
           description: Is returned if the content proposed for creation is invalid
-          
+
 components:
   schemas:
     Book:
@@ -133,19 +133,19 @@ components:
         numbersOfPages:
           type: integer
           format: int16
-        publishedAt: 
+        publishedAt:
           type: string
           format: date
         editing:
           type: object
-          properties: 
+          properties:
             numbersOfChapters:
               type: integer
               format: int16
             status:
-              $ref: '#/components/schemas/Status'
+              $ref: "#/components/schemas/Status"
             mainAuthor:
-              $ref: '#/components/schemas/AuthorLink'
+              $ref: "#/components/schemas/AuthorLink"
         production:
           type: object
           properties:
@@ -159,9 +159,9 @@ components:
                 - glued
             coverType:
               type: string
-              enum: 
-              - soft 
-              - hard
+              enum:
+                - soft
+                - hard
         sales:
           type: object
           properties:
@@ -173,5 +173,41 @@ components:
               format: int16
             salesCondition:
               type: string
-    
-          
+    Status:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int16
+          example: 1
+        name:
+          type: string
+          example: Project
+    Statuses:
+      type: array
+      items:
+        type: object
+        properties:
+          code:
+            type: integer
+            format: 1nt16
+          title:
+            type: string
+
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        rel:
+          type: string
+        title:
+          type: string
+
+    AuthorLink:
+      allOf:
+        - $ref: "#/components/schemas/Link"
+        - type: object
+          properties:
+            authorId:
+              type: string

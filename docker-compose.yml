@@ -1,0 +1,11 @@
+version: '3.0'
+services:
+  mongo:
+    image: mongo:7.0.5
+  express:
+    image: mongo-express:1.0.2
+    ports:
+      - "80:8081"
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=forster
+      - ME_CONFIG_BASICAUTH_PASSWORD=gOU89tRF05
